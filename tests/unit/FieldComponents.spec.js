@@ -14,7 +14,7 @@ describe("UsernameField.vue", () => {
   it("Renders the given label", () => {
     const wrapper = mount(UsernameField, {
       localVue,
-      propsData: { testLabel, value: "" }
+      propsData: { label: testLabel, value: "" }
     });
     expect(wrapper.text()).toMatch(testLabel);
   });
@@ -33,7 +33,7 @@ describe("PasswordField.vue", () => {
   it("Renders the given label", () => {
     const wrapper = mount(PasswordField, {
       localVue,
-      propsData: { testLabel, value: "" }
+      propsData: { label: testLabel, value: "" }
     });
     expect(wrapper.text()).toMatch(testLabel);
   });
