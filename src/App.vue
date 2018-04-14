@@ -3,7 +3,8 @@ v-app(id="app")
   v-content(app)
     transition(
       :enter-active-class="transitionEnterName"
-      :leave-to-class="transitionLeaveName" mode="out-in"
+      :leave-to-class="transitionLeaveName"
+      mode="out-in"
     )
       router-view
 </template>
@@ -38,8 +39,12 @@ export default {
     }
   },
   methods: {
-    // Return the path depth based on the number of slashes. Add a level if content doesn't end in /
+    // Return the path depth based on the number of slashes.
+    // Add a level if content doesn't end in "/", as "/one" is deeper than "/"
     getDepth(path) {
+      if (typeof path !== "string") {
+        return 0;
+      }
       let depth = path.split("/").length;
       depth += path.split("/")[depth - 1] === "" ? 0 : 1;
       return depth;
@@ -55,5 +60,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Commented out due to issue with style-loader. Currently loaded from CDN, instead.
 // @import "animate.css";
 </style>
