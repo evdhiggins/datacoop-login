@@ -10,17 +10,20 @@ login-layout
     v-spacer
     router-link(:to="{name: 'VerifyAccount'}") I already have a password reset code
   template(slot="actions")
-    v-btn(@click="$router.push({name:'LoginUsername'})") Back
-    v-btn(color="primary" @click="requestToken()") Request Token
+    login-button( @click="$router.push({name:'LoginUsername'})" ) Back
+    login-button( primary @click="requestToken()" ) Request Token
 
 </template>
 
 <script>
 import LoginLayout from "./../layouts/Login";
+import LoginButton from "@/components/Button";
+
 export default {
   name: "UnverifiedAccount",
   components: {
-    LoginLayout
+    LoginLayout,
+    LoginButton
   },
   computed: {
     username: {

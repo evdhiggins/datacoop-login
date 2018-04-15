@@ -10,16 +10,19 @@ login-layout
   template(slot="footer") &nbsp;
 
   template(slot="actions")
-    v-btn(color="primary" @click="resetPassword()") Change password
+    login-button(primary @click="resetPassword()") Change password
 </template>
 
 <script>
 import LoginLayout from "./../layouts/Login";
 import PasswordField from "@/components/PasswordField";
 import UsernameField from "@/components/UsernameField";
+import LoginButton from "@/components/Button";
+
 export default {
   name: "ChangePassword",
   components: {
+    LoginButton,
     LoginLayout,
     PasswordField,
     UsernameField

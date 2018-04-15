@@ -8,8 +8,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    username: "",
-    token: ""
+    loading: false,
+    token: "",
+    username: ""
   },
   actions,
   getters,

@@ -5,8 +5,8 @@ login-layout
       password-field(v-model="password")
 
   template(slot="actions")
-    v-btn( @click="$router.push({name: 'LoginUsername'})") Back
-    v-btn(color="primary" @click="login()") Login
+    login-button( @click="$router.push({name: 'LoginUsername'})") Back
+    login-button( primary @click="login()") Login
 
 </template>
 
@@ -14,9 +14,12 @@ login-layout
 import LoginLayout from "./../layouts/Login";
 import PasswordField from "@/components/PasswordField";
 import UsernameField from "@/components/UsernameField";
+import LoginButton from "@/components/Button";
+
 export default {
   name: "LoginPassword",
   components: {
+    LoginButton,
     LoginLayout,
     PasswordField,
     UsernameField

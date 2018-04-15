@@ -5,17 +5,20 @@ login-layout
       username-field(v-model="username")
 
   template(slot="actions")
-    v-btn(color="primary" @click="continueLogin()") Continue
+    login-button( primary @click="continueLogin()") Continue
 
 </template>
 
 <script>
 import LoginLayout from "./../layouts/Login";
 import UsernameField from "@/components/UsernameField";
+import LoginButton from "@/components/Button";
+
 export default {
   name: "LoginUsername",
   components: {
     LoginLayout,
+    LoginButton,
     UsernameField
   },
   data() {

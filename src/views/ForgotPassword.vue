@@ -12,8 +12,8 @@ login-layout
     router-link(:to="{name:'VerifyAccount'}") I already have a password reset code
 
   template(slot="actions")
-    v-btn(@click="$router.push({name: 'LoginUsername'})") Back
-    v-btn(color="primary" @click="requestReset()") Request Reset
+    login-button(@click="$router.push({name: 'LoginUsername'})") Back
+    login-button(primary @click="requestReset()") Request Reset
 
 </template>
 
@@ -21,9 +21,12 @@ login-layout
 import LoginLayout from "./../layouts/Login";
 import PasswordField from "@/components/PasswordField";
 import UsernameField from "@/components/UsernameField";
+import LoginButton from "@/components/Button";
+
 export default {
   name: "ForgotPassword",
   components: {
+    LoginButton,
     LoginLayout,
     PasswordField,
     UsernameField
