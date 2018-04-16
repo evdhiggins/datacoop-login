@@ -3,9 +3,9 @@ login-layout
   template(slot="title") Change password
 
   template(slot="body")
-    v-form(v-model="validForm" ref="form" @submit.prevent="submit" lazy-validation)
+    v-form(v-model="validForm" ref="form" @submit.prevent="resetPassword()" lazy-validation)
       password-field(v-model="password")
-      password-field(v-model="password2" label="Verify Password")
+      password-field(v-model="password2" label="Verify Password" :errorMessages="errors")
 
   template(slot="footer") &nbsp;
 
@@ -29,16 +29,44 @@ export default {
   },
   data() {
     return {
+      errors: [],
       password: "",
       password2: "",
       validForm: null
     };
   },
+  computed: {
+    token() {
+      return this.$store.getters.token;
+    }
+  },
   methods: {
     resetPassword() {
+      this.errors = [];
       if (!this.$refs.form.validate()) {
         return false;
       }
+      if (this.password !== this.password2) {
+        return this.errors.push("Passwords do not match.");
+      }
+      this.$store
+        .dispatch("apiCall", {
+          callName: "updatePassword",
+          data: { password: this.password, token: this.token }
+        })
+        .then(response => {
+          if (!response.updated && !response.token_valid) {
+            this.errors.push(
+              "The reset code is not valid. Please try again, or request a new code."
+            );
+          } else if (!response.updated !== true) {
+            this.errors.push(
+              "The server encountered an error. Please try again later"
+            );
+          } else {
+            this.$router.push({ name: "LoginUsername" });
+          }
+        });
     }
   }
 };

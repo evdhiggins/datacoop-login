@@ -2,7 +2,7 @@
 login-layout
   template(slot="title") Forgot Password
   template(slot="body")
-    v-form(v-model="validForm" ref="form" @submit.prevent="submit" lazy-validation)
+    v-form(v-model="validForm" ref="form" @submit.prevent="requestReset()" lazy-validation)
       p.body-1 Please enter your username and request a password reset code.
       p.body-1 The code will be sent to the email associated with your account. Please contact an admin if you experience any issues.
       username-field(v-model="username")
@@ -48,11 +48,27 @@ export default {
   },
   methods: {
     requestReset() {
+      this.errors = [];
       if (!this.$refs.form.validate()) {
         return false;
       }
-      //request reset
-      this.$router.push({ name: "VerifyAccount" });
+      this.$store
+        .dispatch("apiCall", { callName: "verifyUsername" })
+        .then(response => {
+          if (response.exists && response.setup) {
+            this.$store.dispatch("apiCall", {
+              callName: "requestToken",
+              username: this.username
+            });
+            this.$router.push({ name: "VerifyAccount" });
+          } else if (response.exists && !response.setup) {
+            this.$router.push({ name: "UnverifiedAccount" });
+          } else {
+            this.errors.push(
+              `An account with the username "${this.username}" does not exist.`
+            );
+          }
+        });
     }
   }
 };

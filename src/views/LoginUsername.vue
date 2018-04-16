@@ -1,8 +1,8 @@
 <template lang="pug">
 login-layout
   template(slot="body")
-    v-form(v-model="validForm" ref="form" @submit.prevent="submit" lazy-validation)
-      username-field(v-model="username")
+    v-form(v-model="validForm" ref="form" @submit.prevent="continueLogin()" lazy-validation)
+      username-field(v-model="username" :errorMessages="errors")
 
   template(slot="actions")
     login-button( primary @click="continueLogin()") Continue
@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       validForm: null
     };
   },
@@ -38,14 +39,23 @@ export default {
   },
   methods: {
     continueLogin() {
+      this.errors = [];
       if (!this.$refs.form.validate()) {
         return false;
       }
-      if (this.username === "test") {
-        this.$router.push({ name: "UnverifiedAccount" });
-      } else {
-        this.$router.push({ name: "LoginPassword" });
-      }
+      this.$store
+        .dispatch("apiCall", { callName: "verifyUsername" })
+        .then(response => {
+          if (response.exists && response.setup) {
+            this.$router.push({ name: "LoginPassword" });
+          } else if (response.exists && !response.setup) {
+            this.$router.push({ name: "UnverifiedAccount" });
+          } else {
+            this.errors.push(
+              `An account with the username "${this.username}" does not exist.`
+            );
+          }
+        });
     }
   }
 };
