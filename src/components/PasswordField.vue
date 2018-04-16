@@ -2,6 +2,9 @@
 v-text-field(
   prepend-icon="lock"
   v-model="password"
+  :disabled="loading"
+  :error-messages="errorMessages"
+  :loading="loading"
   :label="label"
   type="password"
   :rules="[v => String(v).length > 6 ? true : 'Must be longer than 6 characters.']"
@@ -12,6 +15,13 @@ v-text-field(
 export default {
   name: "PasswordField",
   props: {
+    errorMessages: {
+      required: false,
+      type: Array,
+      default() {
+        return [];
+      }
+    },
     value: {
       required: true,
       type: String
@@ -23,6 +33,9 @@ export default {
     }
   },
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     password: {
       get() {
         return this.value;

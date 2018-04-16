@@ -1,7 +1,7 @@
 <template lang="pug">
 v-btn(
   @click.stop="$emit('click')"
-  :loading="loading"
+  :loading="loading && showLoading"
   :disabled="loading"
   :color="primary ? 'primary' : ''"
 ) {{label}}
@@ -21,6 +21,11 @@ export default {
       type: String,
       required: false,
       default: ""
+    },
+    showLoading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
