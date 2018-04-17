@@ -7,11 +7,15 @@ v-app(id="app")
       mode="out-in"
     )
       router-view
+  snack-bar
 </template>
 
 <script>
+import SnackBar from "@/components/SnackBar";
+
 export default {
   name: "App",
+  components: { SnackBar },
   data() {
     return {
       transitionEnterName: null,
