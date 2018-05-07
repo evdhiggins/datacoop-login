@@ -9,7 +9,8 @@ import VerifyAccount from "@/views/VerifyAccount";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
+  mode: "abstract",
   routes: [
     {
       path: "/u/f/c",
@@ -40,6 +41,15 @@ export default new Router({
       path: "/u/v",
       name: "VerifyAccount",
       component: VerifyAccount
+    },
+    {
+      path: "*",
+      name: "404",
+      redirect: { name: LoginUsername }
     }
   ]
 });
+
+router.replace("/");
+
+export default router;
