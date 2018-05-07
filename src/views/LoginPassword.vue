@@ -49,6 +49,7 @@ export default {
             this.errors.push(
               "Password was incorrect. Please try again, or reset your password."
             );
+            this.password = "";
           }
         });
     }

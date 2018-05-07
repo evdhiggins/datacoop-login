@@ -64,9 +64,18 @@ export default {
               "The server encountered an error. Please try again later"
             );
           } else {
+            this.$store.dispatch(
+              "message",
+              "Password successfully updated! Please log in using your new password."
+            );
             this.$router.push({ name: "LoginUsername" });
           }
         });
+    }
+  },
+  mounted() {
+    if (this.$store.getters.username === "") {
+      this.$router.push({ name: "LoginUsername" });
     }
   }
 };

@@ -1,5 +1,10 @@
+import MessageBus from "@/MessageBus.js";
 import * as types from "./mutation-types";
 import api from "@/api";
+
+export const message = (_, message) => {
+  MessageBus.$emit("message", message);
+};
 
 export const setLoading = ({ commit }, loading) => {
   commit(types.SET_LOADING, { loading });
@@ -19,7 +24,7 @@ export const apiCall = ({ dispatch, getters }, { callName, data = {} }) => {
     api[callName]({ username: getters.username, ...data }).then(data => {
       dispatch("setLoading", false);
       if (!data.success) {
-        // do stuff
+        MessageBus.$emit("message", data.errmsg);
       } else {
         res(data.response);
       }

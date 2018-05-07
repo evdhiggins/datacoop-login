@@ -60,6 +60,10 @@ export default {
               callName: "requestToken",
               username: this.username
             });
+            this.$store.dispatch(
+              "message",
+              "A password-reset code has been sent to your email."
+            );
             this.$router.push({ name: "VerifyAccount" });
           } else if (response.exists && !response.setup) {
             this.$router.push({ name: "UnverifiedAccount" });

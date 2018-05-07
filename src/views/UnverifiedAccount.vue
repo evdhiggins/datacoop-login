@@ -11,7 +11,7 @@ login-layout
     router-link(:to="{name: 'VerifyAccount'}") I already have a password reset code
   template(slot="actions")
     login-button( @click="$router.push({name:'LoginUsername'})" ) Back
-    login-button( primary @click="requestToken()" showLoading ) Request Token
+    login-button( primary @click="requestToken()" showLoading ) Request Code
 
 </template>
 
@@ -41,7 +41,16 @@ export default {
         callName: "requestToken",
         username: this.username
       });
+      this.$store.dispatch(
+        "message",
+        "A verification code has been sent to your email."
+      );
       this.$router.push({ name: "VerifyAccount" });
+    }
+  },
+  mounted() {
+    if (this.username === "") {
+      this.$router.push({ name: "LoginUsername" });
     }
   }
 };
